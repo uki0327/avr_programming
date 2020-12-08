@@ -3,29 +3,29 @@ ADC_potentiometer_led_count.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  0000014e  2**0
+  0 .data         00000000  00800100  00800100  00000168  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000fa  00000000  00000000  00000054  2**1
+  1 .text         00000114  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  0000014e  2**0
+  2 .comment      00000030  00000000  00000000  00000168  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000180  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000198  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000038  00000000  00000000  000001c0  2**0
+  4 .debug_aranges 00000038  00000000  00000000  000001d8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000743  00000000  00000000  000001f8  2**0
+  5 .debug_info   0000073f  00000000  00000000  00000210  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000006af  00000000  00000000  0000093b  2**0
+  6 .debug_abbrev 000006ad  00000000  00000000  0000094f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000025d  00000000  00000000  00000fea  2**0
+  7 .debug_line   00000295  00000000  00000000  00000ffc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000054  00000000  00000000  00001248  2**2
+  8 .debug_frame  00000054  00000000  00000000  00001294  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003a9  00000000  00000000  0000129c  2**0
+  9 .debug_str    000003ab  00000000  00000000  000012e8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000059  00000000  00000000  00001645  2**0
+ 10 .debug_loc    00000072  00000000  00000000  00001693  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  0000169e  2**0
+ 11 .debug_ranges 00000040  00000000  00000000  00001705  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -66,15 +66,15 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 67 00 	call	0xce	; 0xce <main>
-  78:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <_exit>
+  78:	0c 94 88 00 	jmp	0x110	; 0x110 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000080 <ADC_INIT>:
-#define F_CPU 16000000L
-#include <avr/io.h>
 #include <util/delay.h>
+//#include "UART.h"
+//#include <stdio.h>
 
 void ADC_INIT(unsigned char channel) {
 	ADMUX |= 0x40;
@@ -138,7 +138,7 @@ void PORT_INIT(void) {
 000000ce <main>:
 int main(void)
 {
-    int value;
+	int value;
 	uint8_t on_off;
 	
 	ADC_INIT(0);
@@ -146,30 +146,68 @@ int main(void)
   d0:	0e 94 40 00 	call	0x80	; 0x80 <ADC_INIT>
 	PORT_INIT();
   d4:	0e 94 63 00 	call	0xc6	; 0xc6 <PORT_INIT>
+	//UART_INIT();
 	
-	while (1) 
-    {
+	while (1)
+	{
 		value = read_ADC() >> 7;
   d8:	0e 94 5a 00 	call	0xb4	; 0xb4 <read_ADC>
-  dc:	88 0f       	add	r24, r24
-  de:	89 2f       	mov	r24, r25
-  e0:	88 1f       	adc	r24, r24
-  e2:	99 0b       	sbc	r25, r25
+  dc:	bc 01       	movw	r22, r24
+  de:	66 0f       	add	r22, r22
+  e0:	67 2f       	mov	r22, r23
+  e2:	66 1f       	adc	r22, r22
+  e4:	77 0b       	sbc	r23, r23
 		
 		on_off = 0;
 		for(int i = 0; i <= value ; i++) {
-  e4:	20 e0       	ldi	r18, 0x00	; 0
-  e6:	30 e0       	ldi	r19, 0x00	; 0
-  e8:	02 c0       	rjmp	.+4      	; 0xee <main+0x20>
-  ea:	2f 5f       	subi	r18, 0xFF	; 255
-  ec:	3f 4f       	sbci	r19, 0xFF	; 255
-  ee:	82 17       	cp	r24, r18
-  f0:	93 07       	cpc	r25, r19
-  f2:	dc f7       	brge	.-10     	; 0xea <main+0x1c>
-  f4:	f1 cf       	rjmp	.-30     	; 0xd8 <main+0xa>
+  e6:	20 e0       	ldi	r18, 0x00	; 0
+  e8:	30 e0       	ldi	r19, 0x00	; 0
+	
+	while (1)
+	{
+		value = read_ADC() >> 7;
+		
+		on_off = 0;
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+		for(int i = 0; i <= value ; i++) {
+  ec:	0b c0       	rjmp	.+22     	; 0x104 <main+0x36>
+			on_off |= (0x01 << i);
+  ee:	41 e0       	ldi	r20, 0x01	; 1
+  f0:	50 e0       	ldi	r21, 0x00	; 0
+  f2:	02 2e       	mov	r0, r18
+  f4:	02 c0       	rjmp	.+4      	; 0xfa <main+0x2c>
+  f6:	44 0f       	add	r20, r20
+  f8:	55 1f       	adc	r21, r21
+  fa:	0a 94       	dec	r0
+  fc:	e2 f7       	brpl	.-8      	; 0xf6 <main+0x28>
+  fe:	94 2b       	or	r25, r20
+	while (1)
+	{
+		value = read_ADC() >> 7;
+		
+		on_off = 0;
+		for(int i = 0; i <= value ; i++) {
+ 100:	2f 5f       	subi	r18, 0xFF	; 255
+ 102:	3f 4f       	sbci	r19, 0xFF	; 255
+ 104:	62 17       	cp	r22, r18
+ 106:	73 07       	cpc	r23, r19
+ 108:	94 f7       	brge	.-28     	; 0xee <main+0x20>
+			on_off |= (0x01 << i);
+		}
+		
+		PORTD = ~on_off;
+ 10a:	90 95       	com	r25
+ 10c:	9b b9       	out	0x0b, r25	; 11
+		//char on_off_str[10];
+		//sprintf(on_off_str, "%d", on_off);
+		//UART_printString("PORTD : ");
+		//UART_printString(on_off_str);
+		//UART_printString("\n");
+	}
+ 10e:	e4 cf       	rjmp	.-56     	; 0xd8 <main+0xa>
 
-000000f6 <_exit>:
-  f6:	f8 94       	cli
+00000110 <_exit>:
+ 110:	f8 94       	cli
 
-000000f8 <__stop_program>:
-  f8:	ff cf       	rjmp	.-2      	; 0xf8 <__stop_program>
+00000112 <__stop_program>:
+ 112:	ff cf       	rjmp	.-2      	; 0x112 <__stop_program>
