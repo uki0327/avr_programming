@@ -498,20 +498,20 @@ END GROUP
  .debug_abbrev  0x00000000      0x5a2 C:/AtmelStudio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2      0x13d main.o
 
-.debug_line     0x00000000      0x320
+.debug_line     0x00000000      0x321
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/AtmelStudio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_line    0x00000134      0x1ec main.o
+ .debug_line    0x00000134      0x1ed main.o
 
 .debug_frame    0x00000000       0xd0
  *(.debug_frame)
  .debug_frame   0x00000000       0xd0 main.o
 
-.debug_str      0x00000000      0x3ad
+.debug_str      0x00000000      0x39f
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/AtmelStudio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_str     0x00000208      0x1a5 main.o
-                                0x1de (size before relaxing)
+ .debug_str     0x00000208      0x197 main.o
+                                0x1d0 (size before relaxing)
 
 .debug_loc      0x00000000      0x1cd
  *(.debug_loc)

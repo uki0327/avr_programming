@@ -3,6 +3,11 @@
 *
 * Created: 2020-12-08 오후 12:34:51
 * Author : PROCESSOR
+
+	LEDs on PORTD, Rotary Encoder Button on PB5,
+	Rotary Encoder A and B on PB0 and PB1,
+	Using PCINT (Pin Change Interrupt) on PORTB,
+	shouldn't use UART for LEDs on PD0 and PD1 (RX and TX Pins)
 */
 
 #include <avr/io.h>
