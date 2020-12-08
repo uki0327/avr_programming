@@ -90,19 +90,3 @@ void UART_print32bitNumber(uint32_t no) {
 		UART_transmit(numString[i]);
 	}
 }
-
-int main(void)
-{
-	unsigned char data;
-	
-	UART_INIT();
-	
-    while (1) 
-    {
-		data = UART_receive();
-		UART_transmit(data);
-    }
-	
-	return 0;
-}
-
