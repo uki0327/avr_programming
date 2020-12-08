@@ -7,14 +7,16 @@
 #define F_CPU 16000000L
 #include <avr/io.h>
 #include <util/delay.h>
-//#include "UART.h"
-//#include <stdio.h>
+#include "UART.h"
+#include <stdio.h>
 
 void ADC_INIT(unsigned char channel) {
 	ADMUX |= 0x40;
+	
 	ADCSRA |= 0x07;
 	ADCSRA |= (1 << ADEN);
 	ADCSRA |= (1 << ADATE);
+	
 	ADMUX |= ((ADMUX & 0xE0) | channel);
 	ADCSRA |= (1 << ADSC);
 }
@@ -25,37 +27,27 @@ int read_ADC(void) {
 	return ADC;
 }
 
-void PORT_INIT(void) {
-	DDRD = 0xFF;
-	PORTD = 0xFF;
-}
+
 int main(void)
 {
-	int value;
-	uint8_t on_off;
+	int read, alctualVCC;
 	
-	ADC_INIT(0);
-	PORT_INIT();
-	//UART_INIT();
+	ADC_INIT(14);
+	UART_INIT();
 	
 	while (1)
 	{
-		value = read_ADC() >> 7;
+		read = read_ADC();
+		alctualVCC = 1125300L / read;
 		
-		on_off = 0;
-		for(int i = 0; i <= value ; i++) {
-			on_off |= (0x01 << i);
-		}
+		UART_printString("actualVCC = ");
+		UART_print16bitNumber(alctualVCC);
+		UART_printString("\n");
 		
-		PORTD = ~on_off;
-		
-		//char on_off_str[10];
-		//sprintf(on_off_str, "%d", on_off);
-		//UART_printString("PORTD : ");
-		//UART_printString(on_off_str);
-		//UART_printString("\n");
+		_delay_ms(1000);
 	}
 	
+	return 1;	
 }
 
 
