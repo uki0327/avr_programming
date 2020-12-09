@@ -21,6 +21,34 @@ void UART_INIT(void) {
   UCSR0B |= _BV(TXEN0);
 }
 
+void UART_INIT(unsigned double boud) {
+  UCSR0A |= _BV(U2X0); // 비동기 2 배속 모드
+
+  UBRR0H = 0x00;
+  
+  switch (boud) {
+	  case 1200: 	UBRR0L = 1666;	break;
+	  case 2400:	UBRR0L = 832;	break;
+	  case 4800:	UBRR0L = 416;	break;
+	  case 9600: 	UBRR0L = 207;	break;
+	  case 14400:	UBRR0L = 138;	break;
+	  case 19200:	UBRR0L = 103;	break;
+	  case 28800:	UBRR0L = 68;	break;
+	  case 38400:	UBRR0L = 51;	break;
+	  case 57600:	UBRR0L = 34;	break;
+	  case 115200:	UBRR0L = 16;	break;
+	  case 230400:	UBRR0L = 8;		break;
+	  case 250000:	UBRR0L = 7;		break;
+	  case 1000000:	UBRR0L = 1;		break;
+	  // case 2000000:	UBRR0L = 0;	break;  // unavailable at 16Mhz
+  }
+	  
+  UCSR0C |= 0x06;
+
+  UCSR0B |= _BV(RXEN0);
+  UCSR0B |= _BV(TXEN0);
+}
+
 unsigned char UART_receive(void) {
   while ( !(UCSR0A & (1 << RXC0)));
   return UDR0;

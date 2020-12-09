@@ -12,6 +12,7 @@
 #include <avr/io.h>
 
 void UART_INIT(void);
+void UART_INIT(unsigned double boud);
 unsigned char UART_receive(void);
 void UART_transmit(unsigned char data);
 void UART_printString(char *str);
