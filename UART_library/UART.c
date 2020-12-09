@@ -21,7 +21,7 @@ void UART_INIT(void) {
   UCSR0B |= _BV(TXEN0);
 }
 
-void UART_INIT(unsigned double boud) {
+void UART_INIT(unsigned long boud) {
   UCSR0A |= _BV(U2X0); // 비동기 2 배속 모드
 
   UBRR0H = 0x00;
