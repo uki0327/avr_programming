@@ -18,5 +18,9 @@ void UART_printString(char *str);
 void UART_print8bitNumber(uint8_t no);
 void UART_print16bitNumber(uint16_t no);
 void UART_print32bitNumber(uint32_t no);
+void UART_print8bitBinaryNumber(uint8_t no);
+void UART_print16bitBinaryNumber(uint8_t no);
+void UART_print8bitHexNumber(uint8_t no);
+void UART_print16bitHexNumber(uint8_t no);
 
 #endif /* UART_H_ */
