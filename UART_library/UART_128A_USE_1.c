@@ -6,39 +6,38 @@ Author : PROCESSOR
 */
 #define F_CPU 16000000L
 #include <avr/io.h>
-#include "UART_128A.h"
+#include "UART_128A_USE_1.h"
 
 
 void UART_INIT(unsigned long boud, char x) {
-	if (x == 2) UCSR0A |= _BV(U2X0); // 비동기 2배속 모드
-	else if (x == 1) UCSR0A = 0x00;
+	if (x == 2) UCSR1A |= _BV(U2X0); // 비동기 2배속 모드
+	else if (x == 1) UCSR1A = 0x00;
 	
-	UBRR0H = 0x00;
+	UBRR1H = 0x00;
 	
-	int xFactor;
+	int xFactor = 2;
 	if (x == 1) xFactor = 16;	//	비동기 정상(1배속) 모드
 	else if (x == 2) xFactor = 8; // 비동기 2배속 모드
 	else if (x == 3) xFactor = 2; // 동기 마스터 모드
 	
 	int UBRRnL_Value = F_CPU / (xFactor * boud) - 1;
-	UBRR0L = UBRRnL_Value;
+	UBRR1L = UBRRnL_Value;
 	
-	UCSR0C |= 0x06;
+	UCSR1C |= 0x06;
 
-	UCSR0B |= _BV(RXEN0);
-	UCSR0B |= _BV(TXEN0);
-
+	UCSR1B |= _BV(RXEN0);
+	UCSR1B |= _BV(TXEN0);
 	
 }
 
 unsigned char UART_receive(void) {
-	while ( !(UCSR0A & (1 << RXC0)));
-	return UDR0;
+	while ( !(UCSR1A & (1 << RXC0)));
+	return UDR1;
 }
 
 void UART_transmit(unsigned char data) {
-	while ( !(UCSR0A & (1 << UDRE0)));
-	UDR0 = data;
+	while ( !(UCSR1A & (1 << UDRE0)));
+	UDR1 = data;
 }
 
 void UART_printString(char *str) {
