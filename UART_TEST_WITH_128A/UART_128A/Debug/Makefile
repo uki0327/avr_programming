@@ -38,7 +38,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../main.c \
-../UART_128A_USE_1.c
+../UART_USE_1.c
 
 
 PREPROCESSING_SRCS += 
@@ -49,19 +49,19 @@ ASM_SRCS +=
 
 OBJS +=  \
 main.o \
-UART_128A_USE_1.o
+UART_USE_1.o
 
 OBJS_AS_ARGS +=  \
 main.o \
-UART_128A_USE_1.o
+UART_USE_1.o
 
 C_DEPS +=  \
 main.d \
-UART_128A_USE_1.d
+UART_USE_1.d
 
 C_DEPS_AS_ARGS +=  \
 main.d \
-UART_128A_USE_1.d
+UART_USE_1.d
 
 OUTPUT_FILE_PATH +=UART_128A.elf
 
@@ -84,7 +84,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
-./UART_128A_USE_1.o: .././UART_128A_USE_1.c
+./UART_USE_1.o: .././UART_USE_1.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\AtmelStudio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\AtmelStudio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega128a -B "C:\AtmelStudio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega128a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

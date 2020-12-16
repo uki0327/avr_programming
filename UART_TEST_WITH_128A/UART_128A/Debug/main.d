@@ -13,7 +13,7 @@ main.d main.o: .././main.c \
  c:\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
- .././UART_128A_USE_1.h
+ .././UART_USE_1.h
 
 c:\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -43,4 +43,4 @@ c:\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basi
 
 c:\atmelstudio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 
-.././UART_128A_USE_1.h:
+.././UART_USE_1.h:

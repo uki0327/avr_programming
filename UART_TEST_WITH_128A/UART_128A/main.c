@@ -7,7 +7,7 @@
 #define F_CPU 16000000L
 #include <avr/io.h>
 #include <util/delay.h>
-#include "UART_128A_USE_1.h"
+#include "UART_USE_1.h"
 
 int main(void) {
 	UART_INIT(9600,2);

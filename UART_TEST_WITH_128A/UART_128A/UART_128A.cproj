@@ -141,10 +141,10 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="UART_128A_USE_1.c">
+    <Compile Include="UART_USE_1.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="UART_128A_USE_1.h">
+    <Compile Include="UART_USE_1.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
