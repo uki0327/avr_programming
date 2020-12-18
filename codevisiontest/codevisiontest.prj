@@ -7,7 +7,7 @@ A=Freeware, for evaluation and
 C=
 D=2020-12-08 ¿ÀÀü 11:00:36
 Files=1
-OpenedFiles=2
+OpenedFiles=1
 AllowDisplayFunctionCallTree=1
 CleanUp=2
 DebugOutputListFilesDirectory=Debug\List
@@ -19,9 +19,9 @@ OutputObjectFilesDirectory=Release
 OutputExecutableFilesDirectory=Release\Exe
 OutputLinkerFilesDirectory=Release\Link
 F1=codevisiontest.c
-ActiveTab=1
-OF1=codevisiontest.c
-TimeStamp1=1367890204
+ActiveTab=0
+OF1=untitled.c
+TimeStamp1=1367890162
 OF2=untitled.c
 TimeStamp2=1367890162
 non-commercial use only
@@ -559,15 +559,15 @@ Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
-TimeStamp=1367893036
+TimeStamp=1368548346
 [BookmarksFoldedCode]
 Files=2
 F1=codevisiontest.c
 F2=untitled.c
 [Bookmarks1]
 TimeStamp=1367890204
-Row=10
-Column=29
+Row=8
+Column=31
 ScrollPosX=0
 ScrollPosY=0
 BK0=-1
@@ -580,8 +580,6 @@ BK6=-1
 BK7=-1
 BK8=-1
 BK9=-1
-[FoldedCode1]
-Blocks=0
 [Bookmarks2]
 TimeStamp=1367890162
 Row=0
@@ -598,5 +596,7 @@ BK6=-1
 BK7=-1
 BK8=-1
 BK9=-1
+[FoldedCode1]
+Blocks=0
 [FoldedCode2]
 Blocks=0
