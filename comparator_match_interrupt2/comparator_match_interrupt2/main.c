@@ -25,14 +25,14 @@ int main(void)
 	
 	TCCR0B |= (1 << CS02) | (1 << CS00);
 	
-	OCR0A = 128;
+	OCR0A = 1;
 	
 	TIMSK0 |= (1 << OCIE0A);
 	sei();
 	
 	while (1)
 	{
-		if(count==64) {
+		if(count==1) {
 			count = 0;
 			state = !state;
 			if(state) PORTD = 0x00;

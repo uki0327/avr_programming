@@ -3,13 +3,13 @@ comparator_match_interrupt2.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000198  2**0
+  0 .data         00000000  00800100  00800100  00000196  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000124  00000000  00000000  00000074  2**1
+  1 .text         00000122  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000004  00800100  00800100  00000198  2**0
+  2 .bss          00000004  00800100  00800100  00000196  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000198  2**0
+  3 .comment      00000030  00000000  00000000  00000196  2**0
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001c8  2**2
                   CONTENTS, READONLY
@@ -82,7 +82,7 @@ Disassembly of section .text:
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
   84:	0e 94 60 00 	call	0xc0	; 0xc0 <main>
-  88:	0c 94 90 00 	jmp	0x120	; 0x120 <_exit>
+  88:	0c 94 8f 00 	jmp	0x11e	; 0x11e <_exit>
 
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -134,8 +134,8 @@ int main(void)
   c8:	85 60       	ori	r24, 0x05	; 5
   ca:	85 bd       	out	0x25, r24	; 37
 	
-	OCR0A = 128;
-  cc:	80 e8       	ldi	r24, 0x80	; 128
+	OCR0A = 1;
+  cc:	81 e0       	ldi	r24, 0x01	; 1
   ce:	87 bd       	out	0x27, r24	; 39
 	
 	TIMSK0 |= (1 << OCIE0A);
@@ -149,7 +149,7 @@ int main(void)
 	
 	while (1)
 	{
-		if(count==64) {
+		if(count==1) {
 			count = 0;
 			state = !state;
   dc:	51 e0       	ldi	r21, 0x01	; 1
@@ -162,37 +162,36 @@ int main(void)
 	
 	while (1)
 	{
-		if(count==64) {
+		if(count==1) {
   e2:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <count>
   e6:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <count+0x1>
-  ea:	80 34       	cpi	r24, 0x40	; 64
-  ec:	91 05       	cpc	r25, r1
-  ee:	c9 f7       	brne	.-14     	; 0xe2 <main+0x22>
+  ea:	01 97       	sbiw	r24, 0x01	; 1
+  ec:	d1 f7       	brne	.-12     	; 0xe2 <main+0x22>
 			count = 0;
-  f0:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <count+0x1>
-  f4:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <count>
+  ee:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <count+0x1>
+  f2:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <count>
 			state = !state;
-  f8:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
-  fc:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <_edata+0x1>
- 100:	35 2f       	mov	r19, r21
- 102:	24 2f       	mov	r18, r20
- 104:	00 97       	sbiw	r24, 0x00	; 0
- 106:	11 f0       	breq	.+4      	; 0x10c <main+0x4c>
- 108:	30 e0       	ldi	r19, 0x00	; 0
- 10a:	20 e0       	ldi	r18, 0x00	; 0
- 10c:	30 93 00 01 	sts	0x0100, r19	; 0x800100 <_edata>
- 110:	20 93 01 01 	sts	0x0101, r18	; 0x800101 <_edata+0x1>
+  f6:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+  fa:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <_edata+0x1>
+  fe:	35 2f       	mov	r19, r21
+ 100:	24 2f       	mov	r18, r20
+ 102:	00 97       	sbiw	r24, 0x00	; 0
+ 104:	11 f0       	breq	.+4      	; 0x10a <main+0x4a>
+ 106:	30 e0       	ldi	r19, 0x00	; 0
+ 108:	20 e0       	ldi	r18, 0x00	; 0
+ 10a:	30 93 00 01 	sts	0x0100, r19	; 0x800100 <_edata>
+ 10e:	20 93 01 01 	sts	0x0101, r18	; 0x800101 <_edata+0x1>
 			if(state) PORTD = 0x00;
- 114:	89 2b       	or	r24, r25
- 116:	11 f4       	brne	.+4      	; 0x11c <main+0x5c>
- 118:	1b b8       	out	0x0b, r1	; 11
- 11a:	e3 cf       	rjmp	.-58     	; 0xe2 <main+0x22>
+ 112:	89 2b       	or	r24, r25
+ 114:	11 f4       	brne	.+4      	; 0x11a <main+0x5a>
+ 116:	1b b8       	out	0x0b, r1	; 11
+ 118:	e4 cf       	rjmp	.-56     	; 0xe2 <main+0x22>
 			else PORTD = 0xFF;
- 11c:	6b b9       	out	0x0b, r22	; 11
- 11e:	e1 cf       	rjmp	.-62     	; 0xe2 <main+0x22>
+ 11a:	6b b9       	out	0x0b, r22	; 11
+ 11c:	e2 cf       	rjmp	.-60     	; 0xe2 <main+0x22>
 
-00000120 <_exit>:
- 120:	f8 94       	cli
+0000011e <_exit>:
+ 11e:	f8 94       	cli
 
-00000122 <__stop_program>:
- 122:	ff cf       	rjmp	.-2      	; 0x122 <__stop_program>
+00000120 <__stop_program>:
+ 120:	ff cf       	rjmp	.-2      	; 0x120 <__stop_program>
