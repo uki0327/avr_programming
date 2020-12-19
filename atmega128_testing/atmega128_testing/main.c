@@ -6,10 +6,9 @@
  * [문제2] LED가 500ms 간격으로 (PC0 ~ PC7) 켜지도록 
  * 반복하는 프로그램을 쉬프트 연산자를 활용하여 작성하세요.
  */ 
-
+#define F_CPU 16000000UL
 #include <avr/io.h>
 #include <util/delay.h>
-#define F_CPU 16000000L
 
 char ledState = 0xFE;
 
@@ -29,7 +28,7 @@ int main(void)
     while (1) 
     {
 		PORTC = ledState;
-		_delay_ms(5000);
+		_delay_ms(1000);
 		shiftLed();
     }
 }

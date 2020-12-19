@@ -131,7 +131,7 @@ Disassembly of section .text:
   b6:	a4 cf       	rjmp	.-184    	; 0x0 <__vectors>
 
 000000b8 <shiftLed>:
-#define F_CPU 16000000L
+
 
 char ledState = 0xFE;
 
@@ -174,16 +174,16 @@ int main(void)
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  de:	2f e3       	ldi	r18, 0x3F	; 63
-  e0:	82 e4       	ldi	r24, 0x42	; 66
-  e2:	9f e0       	ldi	r25, 0x0F	; 15
+  de:	2f ef       	ldi	r18, 0xFF	; 255
+  e0:	83 ed       	ldi	r24, 0xD3	; 211
+  e2:	90 e3       	ldi	r25, 0x30	; 48
   e4:	21 50       	subi	r18, 0x01	; 1
   e6:	80 40       	sbci	r24, 0x00	; 0
   e8:	90 40       	sbci	r25, 0x00	; 0
   ea:	e1 f7       	brne	.-8      	; 0xe4 <main+0x12>
   ec:	00 c0       	rjmp	.+0      	; 0xee <main+0x1c>
   ee:	00 00       	nop
-		_delay_ms(5000);
+		_delay_ms(1000);
 		shiftLed();
   f0:	e3 df       	rcall	.-58     	; 0xb8 <shiftLed>
   f2:	f2 cf       	rjmp	.-28     	; 0xd8 <main+0x6>
