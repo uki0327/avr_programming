@@ -20,8 +20,9 @@ void UART_INIT(unsigned long boud, char x) {
 	else if (x == 2) xFactor = 8; // 비동기 2배속 모드
 	else if (x == 3) xFactor = 2; // 동기 마스터 모드
 	
-	int UBRRnL_Value = F_CPU / (xFactor * boud) - 1;
-	UBRR1L = UBRRnL_Value;
+	double b;
+	b = F_CPU / (xFactor * boud) - 1 + 0.5; // 반올림을 위해 +0.5 적용한 계산
+	int UBRRnL_Value = (int)b; // 소수점 이하 자리 버림 (반올림)
 	
 	UCSR1C |= 0x06;
 
