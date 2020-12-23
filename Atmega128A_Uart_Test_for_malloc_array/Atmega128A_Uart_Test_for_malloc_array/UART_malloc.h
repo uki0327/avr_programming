@@ -15,7 +15,7 @@ void UART_INIT(unsigned long baud, char x);
 unsigned char UART_receive(void);
 void UART_transmit(unsigned char data);
 void UART_printString(char *str);
-void UART_printNumber(unsigned long number, unsigned char bit, unsigned char numeral, unsigned char zero, unsigned char format);
-unsigned char getStringArrayNum(unsigned char bit, unsigned char numeral);
+void UART_printNumber(unsigned long num, char numeral, char zero, char format);
+unsigned char getStringArrayNum(unsigned long num, char numeral);
 
 #endif /* UART_H_ */

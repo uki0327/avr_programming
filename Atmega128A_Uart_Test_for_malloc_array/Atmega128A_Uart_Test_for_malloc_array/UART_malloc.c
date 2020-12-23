@@ -6,7 +6,6 @@ Author : PROCESSOR
 */
 #define F_CPU 16000000UL
 #include <avr/io.h>
-#include <math.h>
 #include <stdlib.h>
 
 #include "UART_malloc.h"
@@ -36,7 +35,7 @@ void UART_INIT(unsigned long baud, char x) {
 			case 1000000:	UBRRnL_Value =  0;		break;
 			default:		UBRRnL_Value =  103;	break;
 		}
-	} else if(x == 2) {
+		} else if(x == 2) {
 		switch(baud) {
 			case 2400:		UBRRnL_Value =  832;	break;
 			case 4800:		UBRRnL_Value =  416;	break;
@@ -81,33 +80,41 @@ void UART_printString(char *str) {
 	}
 }
 
-void UART_printNumber(unsigned char bit, unsigned long num, unsigned char numeral, 
-										unsigned char zero, unsigned char format) {
-											
-	char san = getStringArrayNum(bit, numeral); // String Array Number(자리수)
-	char *numString = (char *)malloc(bit / 8); // 배열 동적할당
+void UART_printNumber(unsigned long num, char numeral, char zero, char format) {
+	
+	char san = getStringArrayNum(num, numeral); // String Array Number(자리수)
+	UART_printNumber((unsigned long)san, 10, 0, 0);
+	UART_printString("  ");
+	
+	char zeroIndex = 0;
+	if (zero == 1) {
+		if (numeral == 2) zeroIndex = 4 - (san % 4);
+		if (numeral == 8) zeroIndex = 3 - (san % 3);
+		if (numeral == 16) zeroIndex = 2 - (san % 2);
+		
+		san += zeroIndex;
+	}
+	
+	char *numString = (char *)malloc(san); // 배열 동적할당
 	int i, index = 0;
 	char charTemp[16] = {'0', '1', '2', '3', '4', '5', '6',
 	'7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 	
 	numString[san] = "0";
-
+	
 	// 연산부
 	if (num > 0) {
 		for (i = 0; num != 0; i++ ) {
-			numString[i] = charTemp[(num % numeral)];
+			if(i<zeroIndex) numString[i] = charTemp[0];
+			else numString[i] = charTemp[(num % numeral)];
+			
 			num = num / numeral;
 		}
 		numString[i] = '\0';
 		index = i - 1;
-		}
+	}
 
 	// 출력부
-	if (zero == 1) {
-		if (numeral == 2) index = san + 4 - (san % 4) - 1;
-		if (numeral == 8) index = san + 3 - (san % 3) - 1;
-		if (numeral == 16) index = san + 2 - (san % 2) - 1;
-	}
 
 	if (format == 1) {
 		if (numeral == 2) UART_printString("0b ");
@@ -120,48 +127,30 @@ void UART_printNumber(unsigned char bit, unsigned long num, unsigned char numera
 		if(format == 1) {
 			switch(numeral) {
 				case 2:
-					if((i % 4 ) == 0 && i > 0) UART_printString(" ");
-					break;
+				if((i % 4 ) == 0 && i > 0 && i < index) UART_printString(" ");
+				break;
 				case 8:
-					if((i % 3 ) == 0 && i > 0) UART_printString(" ");
-					break;
+				if((i % 3 ) == 0 && i > 0 && i < index) UART_printString(" ");
+				break;
 				case 10:
-					if((i % 3 ) == 0 && i > 0) UART_printString(",");
-					break;
+				if((i % 3 ) == 0 && i > 0 && i < index) UART_printString(",");
+				break;
 				case 16:
-					if((i % 2 ) == 0 && i > 0) UART_printString(" ");
-					break;
+				if((i % 2 ) == 0 && i > 0 && i < index) UART_printString(" ");
+				break;
 			}
 		}
 	}
 	free(numString);
 }
 
-unsigned char getStringArrayNum(unsigned char bit, unsigned char numeral) {
-	unsigned long decMax = 0;
-	unsigned long dec;
-	unsigned char n = 0;
-	int i;
-	
-	switch(numeral) {
-		case 2:
-		case 8:
-		case 10:
-		case 16:
-	
-			
-			for (i = 0; i < bit; i++) {
-				decMax = decMax + pow(2,i);
-			} // 우선 해당 비트 수에 해당하는 10진수 최대 값을 구한다
-			dec = decMax;
-			
-			for (n=0;; n++) {
-				dec -= pow(numeral,n);
-				if(dec <= 0) return n;
-			} // numeral 진수 자리수를 구한다
-		
-			
-			break;
-		default: return 0;	
+unsigned char getStringArrayNum(unsigned long num, char numeral) {
+	char n = 0;
+
+	for(n=0;;n++) {
+		if(num < numeral) return n+1;
+		num = num / numeral;
 	}
+	
+	return 0;	
 }

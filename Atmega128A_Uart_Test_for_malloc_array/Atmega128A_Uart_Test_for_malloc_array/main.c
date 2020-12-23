@@ -15,8 +15,13 @@ int main(void)
     UART_INIT(9600, 2);
     while (1) 
     {
-		UART_printNumber(125, 8, 2, 1, 1);
-		_delay_ms(500);
+		unsigned long a = 728961;
+		UART_printNumber(a,10,0,0);
+		UART_printString("  ");
+		UART_printNumber(a, 16, 1, 1);
+		UART_transmit('\n');
+
+		_delay_ms(1000);
     }
 }
 
