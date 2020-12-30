@@ -1,6 +1,6 @@
+#define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#define F_CPU 16000000L
 
 int count = 0;
 int state = 0;

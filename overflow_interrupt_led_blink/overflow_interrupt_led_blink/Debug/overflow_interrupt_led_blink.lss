@@ -88,7 +88,7 @@ Disassembly of section .text:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000090 <__vector_16>:
-#define F_CPU 16000000L
+#include <avr/interrupt.h>
 
 int count = 0;
 int state = 0;
