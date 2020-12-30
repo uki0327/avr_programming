@@ -2,32 +2,49 @@
 UART.c
 
 Created: 2020-12-08 오후 2:51:06
-Author : PROCESSOR
+Author : Justin
 */
-#define F_CPU 16000000L
+#define F_CPU 16000000UL
 #include <avr/io.h>
 #include "UART.h"
 
 
-void UART_INIT(unsigned long boud, char x) {
+void UART_init(void) { // Default 9600 Baudrate setting
+	UCSR0A |= _BV(U2X0); 
+	
+	UBRR0H = 0x00;
+	UBRR0L = 207;
+	
+	UCSR0C |= 0x06;
+
+	UCSR0B |= _BV(RXEN0);
+	UCSR0B |= _BV(TXEN0);
+}
+
+void UART_init_set(unsigned long baud, char x) {
 	if (x == 2) UCSR0A |= _BV(U2X0); // 비동기 2배속 모드
 	else if (x == 1) UCSR0A = 0x00;
 	
 	UBRR0H = 0x00;
 	
-	/* int xFactor;
+	/* 
+	
+	int xFactor;
 	if (x == 1) xFactor = 16;	//	비동기 정상(1배속) 모드
 	else if (x == 2) xFactor = 8; // 비동기 2배속 모드
 	else if (x == 3) xFactor = 2; // 동기 마스터 모드
 	
 	double b;
-	b = F_CPU / (xFactor * boud) - 1 + 0.5; // 반올림을 위해 +0.5 적용한 계산
-	int UBRRnL_Value = (int)b; // 소수점 이하 자리 버림 (반올림) */
+	b = F_CPU / (xFactor * baud) - 1 + 0.5; // 반올림을 위해 +0.5 적용한 계산
+	int UBRRnL_Value = (int)b; // 소수점 이하 자리 버림 (반올림)
 	
-	// UBRRnL 수식계산 결과값 오차 발생으로 하드코딩
+	UBRRnL 수식계산 결과값 오차 발생으로 하드코딩 
+	
+	*/
+	
 	int UBRRnL_Value;
 	if(x == 1) {
-		switch(boud) {
+		switch(baud) {
 			case 2400:		UBRRnL_Value =  416;	break;
 			case 4800:		UBRRnL_Value =  207;	break;
 			case 9600:		UBRRnL_Value =  103;	break;
@@ -45,7 +62,7 @@ void UART_INIT(unsigned long boud, char x) {
 			default:		UBRRnL_Value =  103;	break;
 		}
 	} else if(x == 2) {
-		switch(boud) {
+		switch(baud) {
 			case 2400:		UBRRnL_Value =  832;	break;
 			case 4800:		UBRRnL_Value =  416;	break;
 			case 9600:		UBRRnL_Value =  207;	break;

@@ -2,7 +2,7 @@
  * UART.h
  *
  * Created: 2020-12-08 오후 3:01:33
- *  Author: PROCESSOR
+ *  Author: Justin
  */ 
 
 
@@ -11,8 +11,8 @@
 
 #include <avr/io.h>
 
-//void UART_INIT();
-void UART_INIT(unsigned long boud, char x);
+void UART_init(void);
+void UART_init_set(unsigned long baud, char x);
 unsigned char UART_receive(void);
 void UART_transmit(unsigned char data);
 void UART_printString(char *str);
