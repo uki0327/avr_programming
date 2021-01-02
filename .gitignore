@@ -23,6 +23,6 @@
 *.srec
 
 #User Specific Files
-.atsuo
+*.atsuo
 
 # End of https://www.toptal.com/developers/gitignore/api/atmelstudio
